@@ -36,6 +36,7 @@ import sirv from "sirv";
 
 import { applySessionKeyPolicy, DEFAULT_BIND_HOST } from "./bind-host.mjs";
 import { mountMarsWebBridge } from "./mars-web-bridge.mjs";
+import { mountMem0WebBridge } from "./mem0-web-bridge.mjs";
 import {
   createProxyHandlers,
   createRouter,
@@ -691,10 +692,15 @@ export function startStaticServer(config) {
     host: config.host,
     sessionApiKey: config.sessionApiKey || null,
   });
+  const mem0Web = mountMem0WebBridge({
+    host: config.host,
+    sessionApiKey: config.sessionApiKey || null,
+  });
 
   const server = createServer((req, res) => {
     const url = req.url ?? "/";
     if (marsWeb?.handleHttp(req, res)) return;
+    if (mem0Web?.handleHttp(req, res)) return;
     const backend = route(url);
     if (backend) {
       // The editor is advertised as `<origin><prefix>/?tkn=<token>`, and that

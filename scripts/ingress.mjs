@@ -27,6 +27,7 @@ import { pathToFileURL } from "node:url";
 
 import { DEFAULT_BIND_HOST, resolveBindHost } from "./bind-host.mjs";
 import { mountMarsWebBridge } from "./mars-web-bridge.mjs";
+import { mountMem0WebBridge } from "./mem0-web-bridge.mjs";
 import {
   createProxyHandlers,
   createRouter,
@@ -179,12 +180,14 @@ export function startIngress(config) {
   // bridge and proxies to sessions' tunnel listeners, behind the session key
   // (MARS_WEB_KEY; dev-with-automation passes the stack's key).
   const marsWeb = mountMarsWebBridge({ host: config.host });
+  const mem0Web = mountMem0WebBridge({ host: config.host });
 
   const noReferrerPrefixes = config.noReferrerPrefixes ?? [];
 
   const server = createServer((req, res) => {
     const url = req.url ?? "/";
     if (marsWeb?.handleHttp(req, res)) return;
+    if (mem0Web?.handleHttp(req, res)) return;
     const backend = route(url);
 
     if (!backend) {

@@ -2,6 +2,7 @@ import { AUTOMATION_FORM_UPDATE_ACTION_KIND } from "#/constants/automation-form"
 import { CANVAS_UI_CLIENT_ACTION_KIND } from "#/constants/canvas-ui";
 import { LAUNCH_CHILD_CONVERSATION_ACTION_KIND } from "#/constants/child-conversation";
 import { REQUEST_SECRET_ACTION_KIND } from "#/constants/secret-request";
+import { MEM0_MEMORY_ACTION_KIND } from "#/constants/mem0-memory";
 import { ActionBase } from "./base";
 import { TaskItem } from "./common";
 
@@ -354,6 +355,15 @@ export interface LaunchChildConversationAction extends ActionBase<
   isolation?: string | null;
 }
 
+export interface Mem0MemoryAction extends ActionBase<
+  typeof MEM0_MEMORY_ACTION_KIND
+> {
+  operation: "search" | "remember" | "list" | "update" | "forget" | "history";
+  query?: string | null;
+  text?: string | null;
+  memory_id?: string | null;
+}
+
 /**
  * Request for the user to provide a secret, emitted over the existing
  * WebSocket and intercepted by handleRequestSecretAction. Carries the secret's
@@ -394,4 +404,5 @@ export type Action =
   | CanvasUIAction
   | AutomationFormUpdateAction
   | LaunchChildConversationAction
-  | RequestSecretAction;
+  | RequestSecretAction
+  | Mem0MemoryAction;

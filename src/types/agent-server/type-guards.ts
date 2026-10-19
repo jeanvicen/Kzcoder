@@ -5,6 +5,7 @@ import {
 } from "#/constants/canvas-ui";
 import { LAUNCH_CHILD_CONVERSATION_TOOL_NAME } from "#/constants/child-conversation";
 import { REQUEST_SECRET_TOOL_NAME } from "#/constants/secret-request";
+import { MEM0_MEMORY_TOOL_NAME } from "#/constants/mem0-memory";
 
 import {
   OpenHandsEvent,
@@ -23,6 +24,7 @@ import {
   CanvasUIAction,
   LaunchChildConversationAction,
   RequestSecretAction,
+  Mem0MemoryAction,
 } from "./core";
 import {
   AgentErrorEvent,
@@ -232,6 +234,12 @@ export const isLaunchChildConversationActionEvent = (
 ): event is ActionEvent<LaunchChildConversationAction> =>
   isActionEvent(event) &&
   event.tool_name === LAUNCH_CHILD_CONVERSATION_TOOL_NAME;
+
+/** Type guard for optional Mem0 memory tool ActionEvents. */
+export const isMem0MemoryActionEvent = (
+  event: OpenHandsEvent,
+): event is ActionEvent<Mem0MemoryAction> =>
+  isActionEvent(event) && event.tool_name === MEM0_MEMORY_TOOL_NAME;
 
 /** Type guard for request-secret tool ActionEvents. */
 export const isRequestSecretActionEvent = (

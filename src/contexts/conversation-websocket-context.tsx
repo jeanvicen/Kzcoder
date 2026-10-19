@@ -43,6 +43,7 @@ import {
   isAutomationFormUpdateActionEvent,
   isLaunchChildConversationActionEvent,
   isRequestSecretActionEvent,
+  isMem0MemoryActionEvent,
 } from "#/types/agent-server/type-guards";
 import {
   asSessionFrame,
@@ -56,6 +57,7 @@ import { handleCanvasUIAction } from "#/services/canvas-ui";
 import { handleAutomationFormUpdateAction } from "#/services/automation-form";
 import { handleLaunchChildConversationAction } from "#/services/child-conversation-launch";
 import { handleRequestSecretAction } from "#/services/secret-request";
+import { handleMem0MemoryAction } from "#/services/mem0-memory-action";
 import { ConversationStateUpdateEventStats } from "#/types/agent-server/core/events/conversation-state-event";
 import type {
   ConversationErrorEvent,
@@ -894,6 +896,14 @@ export function ConversationWebSocketProvider({
           // outcome is posted back once they save or cancel it.
           if (conversationId && isRequestSecretActionEvent(event)) {
             void handleRequestSecretAction(
+              event.action,
+              conversationId,
+              event.tool_call_id,
+            );
+          }
+
+          if (conversationId && isMem0MemoryActionEvent(event)) {
+            void handleMem0MemoryAction(
               event.action,
               conversationId,
               event.tool_call_id,

@@ -72,6 +72,8 @@ import {
   LAUNCH_CHILD_CONVERSATION_TOOL_NAME,
 } from "./launch-child-conversation-client-tool";
 import { AUTOMATION_FORM_UPDATE_CLIENT_TOOL } from "./automation-form-client-tool";
+import { MEM0_MEMORY_CLIENT_TOOL } from "./mem0-memory-client-tool";
+import { probeMem0WebBridge } from "./mem0-memory-bridge";
 import { REQUEST_SECRET_CLIENT_TOOL } from "./request-secret-client-tool";
 import {
   buildPlanPath,
@@ -1234,6 +1236,7 @@ type RawAgentStartConversationPayload = StartConversationPayloadBase & {
 };
 
 export interface StartConversationOptions {
+  mem0Enabled?: boolean;
   settings: Settings;
   query?: string;
   automationSetup?: boolean;
@@ -1408,6 +1411,7 @@ export function buildStartConversationRequest(
             CANVAS_UI_CLIENT_TOOL,
             LAUNCH_CHILD_CONVERSATION_CLIENT_TOOL,
             REQUEST_SECRET_CLIENT_TOOL,
+            ...(options.mem0Enabled ? [MEM0_MEMORY_CLIENT_TOOL] : []),
             ...(options.automationSetup
               ? [AUTOMATION_FORM_UPDATE_CLIENT_TOOL]
               : []),
@@ -1801,6 +1805,7 @@ export async function buildStartConversationRequestWithEncryptedSettings(options
     serverInfo,
     workspaceHookConfig,
     metaProfiles,
+    mem0Enabled,
   ] = await Promise.all([
     SettingsService.getSettingsForConversation(),
     SecretsService.getSecrets(),
@@ -1811,6 +1816,7 @@ export async function buildStartConversationRequestWithEncryptedSettings(options
     // Best-effort: if the meta-profiles endpoint is unreachable we cannot
     // confirm a router is active, so fail closed (no route-at-start suffix).
     MetaProfilesService.listMetaProfiles().catch(() => null),
+    probeMem0WebBridge(),
   ]);
 
   const { agentSettings, conversationSettings, secretsEncrypted } =
@@ -1837,6 +1843,7 @@ export async function buildStartConversationRequestWithEncryptedSettings(options
     executionRuntime,
     workspaceHookConfig,
     hasActiveMetaProfile,
+    mem0Enabled,
   });
 }
 
