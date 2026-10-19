@@ -115,7 +115,7 @@
     "download-uv": "node scripts/download-uv.mjs",
     "download-node": "node scripts/download-node.mjs",
     "generate-icons": "node scripts/generate-icons.mjs",
-    "test:mem0": "node --test scripts/mem0-web-bridge.test.mjs"
+    "test:mem0": "node --test scripts/mem0-web-bridge.test.mjs && vitest run src/services/mem0-memory-action.test.ts"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js}": [
