@@ -156,7 +156,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
 
 function showHelp() {
   console.log(`
-Agent Canvas Static-frontend Development Stack
+Kzcoder Static-frontend Development Stack
 
 Runs the automation stack, but serves a production build of the
 frontend via scripts/static-server.mjs. Use this when a remote or flaky network
@@ -555,7 +555,7 @@ function printBanner(config) {
     `${c.green}${c.bold}╔══════════════════════════════════════════════════════════════╗${c.reset}`,
   );
   console.log(
-    `${c.green}${c.bold}║${c.reset}  ${c.bold}Agent Canvas Static-frontend Stack${c.reset}                          ${c.green}${c.bold}║${c.reset}`,
+    `${c.green}${c.bold}║${c.reset}  ${c.bold}Kzcoder Static-frontend Stack${c.reset}                          ${c.green}${c.bold}║${c.reset}`,
   );
   console.log(
     `${c.green}${c.bold}╠══════════════════════════════════════════════════════════════╣${c.reset}`,
@@ -601,7 +601,7 @@ async function main() {
 
   console.log("");
   console.log(
-    `${c.cyan}${c.bold}Agent Canvas Static-frontend Development Stack${c.reset}`,
+    `${c.cyan}${c.bold}Kzcoder Static-frontend Development Stack${c.reset}`,
   );
   console.log("");
 

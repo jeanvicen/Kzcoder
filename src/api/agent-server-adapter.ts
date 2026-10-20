@@ -173,7 +173,7 @@ function resolveMaxIterations(value: unknown): number {
 }
 
 /**
- * Shape of the runtime services info served by Agent Canvas backends in
+ * Shape of the runtime services info served by Kzcoder backends in
  * `/server_info.runtime_services`. All URLs are written from the agent's point of
  * view, not the browser's. The block is rendered into the agent's system prompt
  * via `AgentContext.system_message_suffix` so the agent knows what's reachable

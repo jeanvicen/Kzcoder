@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="./kzcoder-logo.jpg" alt="Kzcoder logo" width="340">
-  <h1 align="center" style="border-bottom: none">Agent Canvas</h1>
+  <h1 align="center" style="border-bottom: none">Kzcoder</h1>
   <p align="center">
     <strong>The self-hosted developer control center for coding agents and automations.</strong>
   </p>
@@ -26,15 +26,15 @@
   <a href="https://go.openhands.dev/slack">Slack</a>
 </div>
 <p align="center">
-  <img src="https://assets.openhands.dev/screenshot/automation-preview.png" alt="Agent Canvas automation preview" width="100%">
+  <img src="https://assets.openhands.dev/screenshot/automation-preview.png" alt="Kzcoder automation preview" width="100%">
 </p>
 <hr>
 
-OpenHands Agent Canvas turns your coding agents into a self-hosted, always-on engineering team. It's a developer control center for starting conversations and automating everyday tasks — like generating reports that publish to Slack or automatically decomposing GitHub issues into tasks.
+Kzcoder turns your coding agents into a self-hosted, always-on engineering team. It is a developer control center for starting conversations and automating everyday tasks — like generating reports that publish to Slack or automatically decomposing GitHub issues into tasks. Kzcoder is a community-maintained fork of [OpenHands Agent Canvas](https://github.com/OpenHands/OpenHands), and retains upstream attribution and technical identifiers where compatibility requires them.
 
 It runs locally on your machine by default, but can connect to multiple “agent backends”, e.g. running agents in Docker containers, on VMs, or within your company infrastructure. You can optionally choose to run agents on OpenHands Cloud or OpenHands Enterprise infrastructure.
 
-Agent Canvas runs the open source OpenHands agent out-of-the-box, but can use third-party agents such as Claude Code, Codex, Gemini CLI, Pi, and OpenCode.
+Kzcoder runs the open source OpenHands agent out-of-the-box, but can use third-party agents such as Claude Code, Codex, Gemini CLI, Pi, and OpenCode.
 
 |                                                                                                                      |                                                                                                                                          |
 | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -57,7 +57,7 @@ even when your laptop is shut, and makes it easier to trigger your agents throug
 like Slack, GitHub, and Datadog. See [SELF_HOSTING.md](docs/SELF_HOSTING.md) for details, especially with respect to security hardening.
 
 Notably, you can run the backend in _multiple different environments_, and switch between
-them from the same Agent Canvas frontend. E.g. you can share an Agent Server with your team for agents doing
+them from the same Kzcoder frontend. E.g. you can share an Agent Server with your team for agents doing
 code review and dependency updates, then have your personal agents running on your laptop.
 
 ### Option 1: Without a Sandbox
@@ -129,8 +129,8 @@ This setting isolates conversation execution; it does not move the entire Canvas
 **Prerequisites**: [Node.js](https://nodejs.org/) 24 or later, `npm`, `uv` (for running the agent server via `uvx`)
 
 ```sh
-git clone https://github.com/OpenHands/OpenHands.git
-cd OpenHands
+git clone https://github.com/jeanvicenc4/Kzcoder.git
+cd Kzcoder
 npm install
 npm run dev
 ```
@@ -145,7 +145,7 @@ Docker listens on all container interfaces so port publishing works, but does no
 
 # Architecture
 
-Agent Canvas is powered by the [OpenHands Agent Server](https://github.com/OpenHands/software-agent-sdk/tree/main/openhands-agent-server/openhands/agent_server), a REST API for running multiple agents on a single machine. Each Agent Server runs on a single host/port; the Agent Canvas can connect to multiple Agent Servers and easily flip between them.
+Kzcoder is powered by the [OpenHands Agent Server](https://github.com/OpenHands/software-agent-sdk/tree/main/openhands-agent-server/openhands/agent_server), a REST API for running multiple agents on a single machine. Each Agent Server runs on a single host/port; Kzcoder can connect to multiple Agent Servers and easily flip between them.
 
 You can run an Agent Server anywhere:
 
@@ -160,16 +160,17 @@ The Agent Server is often paired with an [Automation Server](https://github.com/
 
 ### Repository boundaries
 
-Agent Canvas is part of a multi-repository OpenHands system. Changes should go to the repository that owns the behavior:
+Kzcoder is a community-maintained fork in the multi-repository OpenHands ecosystem. This repository contains the Kzcoder fork; upstream OpenHands components remain maintained in their original repositories:
 
 | Repository                                                                        | Responsibility                                                                                            |
 | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| [`OpenHands/OpenHands`](https://github.com/OpenHands/OpenHands)                   | Agent Canvas frontend, user-facing control center, backend selection, and local-stack orchestration.      |
+| [`jeanvicenc4/Kzcoder`](https://github.com/jeanvicenc4/Kzcoder)                   | Kzcoder fork, including its branding and fork-specific changes.                                             |
+| [`OpenHands/OpenHands`](https://github.com/OpenHands/OpenHands)                   | Upstream OpenHands Agent Canvas frontend and local-stack orchestration.                                     |
 | [`OpenHands/software-agent-sdk`](https://github.com/OpenHands/software-agent-sdk) | Python SDK, Agent Server, agents, tools, conversations, workspaces, events, and the canonical server API. |
 | [`OpenHands/typescript-client`](https://github.com/OpenHands/typescript-client)   | Browser-compatible TypeScript client for the Agent Server API.                                            |
 | [`OpenHands/automation`](https://github.com/OpenHands/automation)                 | Automation definitions, scheduling, webhooks, run history, and dispatching.                               |
 
-The Agent Server API is implemented by the SDK and consumed through the TypeScript client by Agent Canvas. The automation service decides when work runs and dispatches conversations to the Agent Server/SDK, which decides what runs. See [`AGENTS.md`](./AGENTS.md) for contributor-specific boundaries and the required custom code-review guide.
+The Agent Server API is implemented by the SDK and consumed through the TypeScript client by Kzcoder. The automation service decides when work runs and dispatches conversations to the Agent Server/SDK, which decides what runs. See [`AGENTS.md`](./AGENTS.md) for contributor-specific boundaries and the required custom code-review guide.
 
 ## More documentation
 

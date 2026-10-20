@@ -1,5 +1,5 @@
 /**
- * electron-builder configuration for the Agent Canvas desktop app.
+ * electron-builder configuration for the Kzcoder desktop app.
  *
  * `directories.app: 'electron'` tells electron-builder to use electron/package.json
  * as the app manifest (with `"main": "main.mjs"`). This sidesteps the root
@@ -321,7 +321,7 @@ function getDirSizeBytes(dir) {
 /** @type {import('electron-builder').Configuration} */
 const config = {
   appId: "dev.openhands.agent-canvas",
-  productName: "OpenHands Agent Canvas",
+  productName: "Kzcoder",
   copyright: "Copyright © 2025 OpenHands contributors",
 
   // Stamp the packaged app with the released version (see rootPackageJson
@@ -450,16 +450,16 @@ const config = {
   },
 
   dmg: {
-    title: "OpenHands Agent Canvas",
+    title: "Kzcoder",
     contents: [
       { x: 130, y: 220 },
       { x: 410, y: 220, type: "link", path: "/Applications" },
     ],
     window: { width: 540, height: 380 },
-    // Default is "OpenHands Agent Canvas-<version>-<arch>.dmg"; GitHub release
+    // Default is "Kzcoder-<version>-<arch>.dmg"; GitHub release
     // assets mangle spaces, so keep the asset name literal (matches the nsis
     // convention). ${version}/${arch}/${ext} are electron-builder macros.
-    artifactName: "OpenHands-Agent-Canvas-${version}-${arch}.${ext}",
+    artifactName: "Kzcoder-${version}-${arch}.${ext}",
   },
 
   // ── Windows ────────────────────────────────────────────────────────────────
@@ -476,10 +476,10 @@ const config = {
     allowToChangeInstallationDirectory: true,
     createDesktopShortcut: true,
     createStartMenuShortcut: true,
-    // The default artifact name is "OpenHands Agent Canvas Setup <version>.exe";
+    // The default artifact name is "Kzcoder Setup <version>.exe";
     // GitHub release assets mangle spaces, so ship a space-free name.
     // ${version}/${ext} are electron-builder macros, not JS interpolation.
-    artifactName: "OpenHands-Agent-Canvas-Setup-${version}.${ext}",
+    artifactName: "Kzcoder-Setup-${version}.${ext}",
   },
 
   // ── Linux ──────────────────────────────────────────────────────────────────

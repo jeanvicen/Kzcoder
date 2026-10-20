@@ -44,7 +44,7 @@ import {
 const CLOUD_START_POLL_INTERVAL_MS = 3_000;
 const CLOUD_START_POLL_TIMEOUT_MS = 180_000;
 
-/** Cloud and self-hosted Enterprise serve Agent Canvas here; the host root is the legacy UI. */
+/** Cloud and self-hosted Enterprise serve Kzcoder here; the host root is the legacy UI. */
 const CLOUD_AGENT_CANVAS_BASE_PATH = "/canvas";
 
 const LEDGER_STORAGE_KEY_PREFIX = "openhands-child-conversation-launches:";
@@ -384,7 +384,7 @@ async function launchCloudChild(
   const backend = pickCloudBackendForLaunch();
   if (!backend) {
     return failure(
-      "No OpenHands Cloud backend is connected in Agent Canvas.",
+      "No OpenHands Cloud backend is connected in Kzcoder.",
       'Ask the user to connect OpenHands Cloud from the backend picker, then call this tool again — or relaunch now with target="local".',
     );
   }

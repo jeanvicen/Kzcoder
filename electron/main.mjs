@@ -1,7 +1,7 @@
 /**
- * Electron Main Process — Agent Canvas Desktop
+ * Electron Main Process — Kzcoder Desktop
  *
- * Starts the full Agent Canvas stack (agent-server + automation via uvx,
+ * Starts the full Kzcoder stack (agent-server + automation via uvx,
  * static frontend, ingress proxy), then opens a native BrowserWindow once
  * the ingress is ready. Shows a loading screen while backends start.
  *
@@ -680,7 +680,7 @@ async function startStack() {
   //   onServiceLog: stream uvx/agent-server output to the loading window so
   //     the user sees progress instead of an indefinite spinner.
   const result = await main({
-    bannerTitle: "OpenHands Agent Canvas",
+    bannerTitle: "Kzcoder",
     staticMode: true,
     staticDir: buildDir,
     mode: "agent-canvas",
@@ -741,7 +741,7 @@ function failStartup(err) {
     ? `\n\nRecent service errors:\n${recentServiceErrors.join("\n")}`
     : "";
   dialog.showErrorBox(
-    "OpenHands Agent Canvas failed to start",
+    "Kzcoder failed to start",
     summary + errorTail,
   );
   app.quit();
@@ -781,7 +781,7 @@ app.whenReady().then(async () => {
     dialog.showErrorBox(
       "Missing prerequisite: uv",
       app.isPackaged
-        ? "The bundled uv binary could not be found. Please reinstall OpenHands Agent Canvas."
+        ? "The bundled uv binary could not be found. Please reinstall Kzcoder."
         : "uv (uvx) is not installed.\n\nInstall it from https://docs.astral.sh/uv/ then restart.",
     );
     app.quit();

@@ -435,7 +435,7 @@ function buildReport(args) {
 
   const lines = [
     args.marker || DEFAULT_MARKER,
-    "## Agent Canvas Live E2E",
+    "## Kzcoder Live E2E",
     "",
     `**Status:** ${formatStatus(summary.status)}`,
   ];

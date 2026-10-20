@@ -127,7 +127,7 @@ describe("package library metadata", () => {
     expect(dependencyInstall.status).toBe(0);
     expect(dependencyInstall.stdout).toBe("");
     expect(globalInstall.status).toBe(0);
-    expect(globalInstall.stdout).toContain("To start Agent Canvas, run:");
+    expect(globalInstall.stdout).toContain("To start Kzcoder, run:");
   });
 
   it("ships runtime logger dependencies for the published CLI", () => {

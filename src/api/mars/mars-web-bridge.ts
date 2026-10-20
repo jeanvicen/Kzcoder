@@ -2,7 +2,7 @@
  * `window.marsBridge` for the web build.
  *
  * The desktop app gets the bridge from Electron's preload; a browser gets it
- * from the Agent Canvas server instead, which hosts the same main-process
+ * from the Kzcoder server instead, which hosts the same main-process
  * bridge and exposes it same-origin under `/mars/rpc/<method>` (see
  * scripts/mars-web-bridge.mjs). Every method here is one POST carrying the
  * call's arguments, so the rest of the Managed Agents UI runs unchanged: it
@@ -72,7 +72,7 @@ async function rpc<T>(
 }
 
 /**
- * @param baseUrl Origin (and path prefix) the Agent Canvas server is on;
+ * @param baseUrl Origin (and path prefix) the Kzcoder server is on;
  *   empty means the page's own origin.
  */
 export function createMarsWebBridge(
@@ -142,7 +142,7 @@ export async function probeMarsWebBridge(
 
 /**
  * Install the web bridge as `window.marsBridge` when this page is served by
- * an Agent Canvas server that hosts it. A no-op in Electron (the preload has
+ * an Kzcoder server that hosts it. A no-op in Electron (the preload has
  * already provided the bridge) and when the server does not offer MARS, so
  * the Managed Agents UI stays hidden exactly as before. Resolves before the
  * app renders because `getMarsBridge()` is read synchronously.

@@ -260,7 +260,7 @@ describe("ManageBackendsModal", () => {
     );
     expect(
       screen.getByTestId("manage-backends-status-detail-Local"),
-    ).toHaveTextContent("Agent Canvas requires agent-server 1.51.0 or newer");
+    ).toHaveTextContent("Kzcoder requires agent-server 1.51.0 or newer");
   });
 
   // @spec BM-002 — Switching backends from Manage backends redirects a

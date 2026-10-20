@@ -2,7 +2,7 @@
 /**
  * CLI entry point for @openhands/agent-canvas
  *
- * Runs the full Agent Canvas stack locally by default:
+ * Runs the full Kzcoder stack locally by default:
  * - Agent-server via uvx
  * - Automation backend via uvx
  * - Pre-built static frontend
@@ -57,7 +57,7 @@ const isBackendOnly = args.includes("--backend-only");
 
 if (args.includes("-h") || args.includes("--help")) {
   console.log(`
-@openhands/agent-canvas - Run the Agent Canvas UI with agent-server
+@openhands/agent-canvas - Run the Kzcoder UI with agent-server
 
 Runs the full stack with agent-server and automation backend via uvx,
 and serves pre-built static frontend assets.
@@ -163,7 +163,7 @@ try {
 }
 
 main({
-  bannerTitle: "Agent Canvas",
+  bannerTitle: "Kzcoder",
   staticMode: true,
   staticDir: BUILD_DIR,
   mode: "agent-canvas",
