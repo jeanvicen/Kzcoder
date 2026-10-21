@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRoutesStub } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -160,7 +160,7 @@ describe("App root agent-server availability guard", () => {
     });
   });
 
-  it("shows first-run onboarding before the auth gate when public mode has no backend key", async () => {
+  it("keeps the public-mode API-key authentication gate without first-run onboarding", async () => {
     vi.stubEnv("VITE_AUTH_REQUIRED", "true");
     vi.stubEnv("VITE_SESSION_API_KEY", "");
     delete (window as unknown as Record<string, unknown>)
@@ -170,21 +170,14 @@ describe("App root agent-server availability guard", () => {
 
     renderApp(["/"]);
 
-    await waitFor(() => {
-      expect(
-        screen.getByTestId("first-run-onboarding-screen"),
-      ).toBeInTheDocument();
-    });
-    expect(await screen.findByTestId("onboarding-modal")).toBeInTheDocument();
+    expect(await screen.findByTestId("api-key-entry-screen")).toBeInTheDocument();
     expect(
-      await screen.findByTestId("onboarding-step-check-backend"),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByTestId("api-key-entry-screen"),
+      screen.queryByTestId("first-run-onboarding-screen"),
     ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("onboarding-modal")).not.toBeInTheDocument();
   });
 
-  it("shows first-run onboarding before the recovery modal when no backend is configured", async () => {
+  it("opens the normal app for a fresh local entry without first-run onboarding", async () => {
     vi.stubEnv("VITE_SESSION_API_KEY", "");
     delete (window as unknown as Record<string, unknown>)
       .__AGENT_CANVAS_SESSION_API_KEY__;
@@ -194,39 +187,15 @@ describe("App root agent-server availability guard", () => {
     renderApp(["/"]);
 
     await waitFor(() => {
-      expect(
-        screen.getByTestId("first-run-onboarding-screen"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("app-outlet")).toBeInTheDocument();
     });
-    expect(await screen.findByTestId("onboarding-modal")).toBeInTheDocument();
-    expect(
-      screen.queryByTestId("agent-server-onboarding-screen"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId("manage-backends-modal"),
-    ).not.toBeInTheDocument();
-  });
-
-  it("lets root-level onboarding navigate to the launched conversation before closing", async () => {
-    server.use(
-      http.get("*/server_info", () =>
-        HttpResponse.json({ uptime: 0, idle_time: 0, version: "1.52.0" }),
-      ),
-    );
-
-    renderApp(["/"]);
-
-    fireEvent.click(await screen.findByTestId("mock-onboarding-launch"));
-
-    await waitFor(() => {
-      expect(screen.getByTestId("conversation-outlet")).toBeInTheDocument();
-    });
-    expect(window.localStorage.getItem(ONBOARDING_COMPLETED_STORAGE_KEY)).toBe(
-      "1",
-    );
     expect(
       screen.queryByTestId("first-run-onboarding-screen"),
     ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("onboarding-modal")).not.toBeInTheDocument();
+    expect(
+      window.localStorage.getItem(ONBOARDING_COMPLETED_STORAGE_KEY),
+    ).toBeNull();
   });
 
   it("shows first-run onboarding before the recovery modal when locked to Cloud with no backend", async () => {
@@ -642,9 +611,7 @@ describe("App root agent-server availability guard", () => {
     expect(screen.queryByTestId("app-outlet")).not.toBeInTheDocument();
   });
 
-  it("renders the routed page when the agent server is reachable", async () => {
-    window.localStorage.setItem(ONBOARDING_COMPLETED_STORAGE_KEY, "1");
-
+  it("renders the routed page for a fresh user when the agent server is reachable", async () => {
     renderApp(["/"]);
 
     await waitFor(() => {
@@ -652,19 +619,14 @@ describe("App root agent-server availability guard", () => {
     });
 
     expect(
-      screen.queryByTestId("agent-server-onboarding-screen"),
+      screen.queryByTestId("first-run-onboarding-screen"),
     ).not.toBeInTheDocument();
+    expect(
+      window.localStorage.getItem(ONBOARDING_COMPLETED_STORAGE_KEY),
+    ).toBeNull();
   });
 
-  it("shows first-run onboarding for the launcher-seeded default-local backend even when the agent-server reports a configured LLM", async () => {
-    // Regression for mock-llm-onboarding-regressions.spec.ts:16
-    // ("keeps the modal open on backdrop click and Escape") and
-    // mock-llm-auth-modes.spec.ts:57 ("reaches the onboarding modal
-    // without pre-seeded localStorage"). The shared mock-LLM
-    // agent-server retains a previously-configured LLM across browser
-    // sessions, so a genuinely fresh browser install (launcher-seeded
-    // default-local backend, no `openhands-onboarded` flag) must NOT
-    // have onboarding auto-marked complete by backend readiness.
+  it("opens the normal app for a fresh default-local backend even when the server has a configured LLM", async () => {
     vi.stubEnv("VITE_BACKEND_BASE_URL", "http://127.0.0.1:8000");
     vi.stubEnv("VITE_SESSION_API_KEY", "test-session-key");
     // The launcher-seeded default-local backend (id
@@ -688,12 +650,11 @@ describe("App root agent-server availability guard", () => {
     renderApp(["/"]);
 
     await waitFor(() => {
-      expect(
-        screen.getByTestId("first-run-onboarding-screen"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("app-outlet")).toBeInTheDocument();
     });
-    expect(screen.queryByTestId("app-outlet")).not.toBeInTheDocument();
-
+    expect(
+      screen.queryByTestId("first-run-onboarding-screen"),
+    ).not.toBeInTheDocument();
     expect(
       window.localStorage.getItem(ONBOARDING_COMPLETED_STORAGE_KEY),
     ).toBeNull();

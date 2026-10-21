@@ -292,11 +292,14 @@ export default function App() {
   // active backend really is the locked Cloud host, so the stale-flag bypass
   // concerns above don't apply here.)
   const shouldCheckMainAppAuth = shouldUseMainAppCookieAuth();
+  // Normal Kzcoder startup goes straight to the main app. Connection choices
+  // and backend setup are available later under Settings > Manage backends.
+  // Locked-to-Cloud deployments retain their required authentication gate.
   const showFirstRunOnboarding = isLockedToCloud
     ? !shouldCheckMainAppAuth &&
       (!isActiveLockedCloudBackend ||
         (lockedCloudAuthMode !== "cookie" && !onboardingCompleted))
-    : !onboardingCompleted;
+    : false;
   const mainAppAuth = useQuery({
     queryKey: QUERY_KEYS.MAIN_APP_COOKIE_AUTH,
     queryFn: authenticateWithMainAppCookie,

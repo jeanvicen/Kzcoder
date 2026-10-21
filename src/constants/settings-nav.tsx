@@ -1,4 +1,4 @@
-import { AppWindow, Brain, Route as RouteIcon, Shield } from "lucide-react";
+import { AppWindow, Brain, Route as RouteIcon, Server, Shield } from "lucide-react";
 import KeyIcon from "#/icons/key.svg?react";
 import MemoryIcon from "#/icons/memory_icon.svg?react";
 import CircuitIcon from "#/icons/u-circuit.svg?react";
@@ -13,6 +13,12 @@ export interface SettingsNavItem {
 }
 
 export const OSS_NAV_ITEMS: SettingsNavItem[] = [
+  {
+    icon: <Server className="size-4" strokeWidth={2} aria-hidden />,
+    to: "/settings/backends",
+    text: "BACKEND$MANAGE_TITLE",
+    subtitle: "BACKEND$ADD_SUBTITLE",
+  },
   {
     // "Agent" is the Agent Profile library: it lists the user's agent profiles
     // and its create/edit view is the reused Agent settings form plus a name.
