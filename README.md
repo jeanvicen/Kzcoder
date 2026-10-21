@@ -2,11 +2,15 @@
 
 Kzcoder is a self-hosted control center for working with coding agents and automating development tasks. Run it locally, connect it to the agent environment you use, and manage your coding work from one interface.
 
+## OpenHands partnership
+
+Kzcoder's technical partnership with OpenHands supports its coding-agent foundation. The product, brand and documentation here focus on Kzcoder; this is the only external partnership described in this document.
+
 ## Requirements
 
 - Node.js 24 or later
 - npm
-- [`uv`](https://docs.astral.sh/uv/)
+- [uv](https://docs.astral.sh/uv/)
 - Git
 
 ## Run locally
@@ -23,10 +27,10 @@ When the development server starts, open [http://localhost:8000](http://localhos
 ## Development commands
 
 ```bash
-npm run dev       # Start the local development stack
-npm run build     # Build the application
-npm test          # Run the test suite
-npm run lint      # Type-check and lint the source
+npm run dev    # Start the local development stack
+npm run build  # Build the application
+npm test       # Run the test suite
+npm run lint   # Type-check and lint the source
 ```
 
 ## Security
@@ -35,7 +39,7 @@ Kzcoder runs agent processes in your development environment. An agent may be ab
 
 ## License
 
-Kzcoder is distributed under the MIT License. See [`LICENSE`](LICENSE) for the license text.
+Kzcoder is distributed under the MIT License. See [LICENSE](./LICENSE) for the license text and required notices.
 
 ## Issues
 
