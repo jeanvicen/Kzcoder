@@ -115,6 +115,15 @@ export const isAgentServerUnsupportedVersionError = (
     "code" in error &&
     error.code === AGENT_SERVER_UNSUPPORTED_VERSION_ERROR_CODE);
 
+export const isAgentServerUnknownVersionError = (
+  error: unknown,
+): error is AgentServerUnknownVersionError =>
+  error instanceof AgentServerUnknownVersionError ||
+  (typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === AGENT_SERVER_UNKNOWN_VERSION_ERROR_CODE);
+
 /**
  * Returns true when the agent-server probe failed with HTTP 401.
  * In public mode this means the stored key is stale (server restarted

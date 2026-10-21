@@ -10,6 +10,7 @@ import {
   isAgentServerAuthError,
   isAgentServerUnavailableError,
   isAgentServerUnsupportedVersionError,
+  isAgentServerUnknownVersionError,
   isSdkHttpError,
   isSdkHttpStatusError,
   MINIMUM_COMPATIBLE_AGENT_SERVER_VERSION,
@@ -197,6 +198,22 @@ describe("agent-server compatibility errors", () => {
     { code: "ANOTHER_ERROR" },
   ])("rejects unsupported-version lookalike %#", (error) => {
     expect(isAgentServerUnsupportedVersionError(error)).toBe(false);
+  });
+
+  it.each([
+    new AgentServerUnknownVersionError(null),
+    { code: AGENT_SERVER_UNKNOWN_VERSION_ERROR_CODE },
+  ])("recognizes unknown-version error %#", (error) => {
+    expect(isAgentServerUnknownVersionError(error)).toBe(true);
+  });
+
+  it.each([
+    null,
+    "AGENT_SERVER_UNKNOWN_VERSION",
+    {},
+    { code: "ANOTHER_ERROR" },
+  ])("rejects unknown-version lookalike %#", (error) => {
+    expect(isAgentServerUnknownVersionError(error)).toBe(false);
   });
 });
 
