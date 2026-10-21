@@ -492,7 +492,7 @@ describe("App root agent-server availability guard", () => {
     expect(screen.queryByTestId("app-outlet")).not.toBeInTheDocument();
   });
 
-  it("shows the manage-backends modal when the backend is unreachable", async () => {
+  it("renders the app when the local backend is unreachable", async () => {
     let serverInfoRequests = 0;
     window.localStorage.setItem(ONBOARDING_COMPLETED_STORAGE_KEY, "1");
 
@@ -508,21 +508,14 @@ describe("App root agent-server availability guard", () => {
     renderApp(["/"]);
 
     await waitFor(() => {
-      expect(
-        screen.getByTestId("agent-server-onboarding-screen"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("app-outlet")).toBeInTheDocument();
     });
 
-    // The onboarding placeholder now hosts the Manage Backends modal
-    // directly so the user can edit/add a backend immediately. The
-    // modal additionally probes /server_info per registered backend
-    // for its status dot + version label, so the request count is
-    // bounded but greater than the single config probe.
-    await waitFor(() => {
-      expect(screen.getByTestId("manage-backends-modal")).toBeInTheDocument();
-    });
     expect(serverInfoRequests).toBeGreaterThanOrEqual(1);
-    expect(screen.queryByTestId("app-outlet")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("agent-server-onboarding-screen"),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("manage-backends-modal")).not.toBeInTheDocument();
   });
 
   it("shows the manage-backends recovery modal when the active cloud backend is logged out", async () => {

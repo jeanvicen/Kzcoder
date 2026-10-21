@@ -20,6 +20,7 @@ import {
 } from "#/hooks/use-breakpoint";
 import { useSettingsNavItems } from "#/hooks/use-settings-nav-items";
 import {
+  BACKENDS_SETTINGS_NAV_PATH,
   LOCKED_CLOUD_SETTINGS_NAV_PATH,
   OSS_NAV_ITEMS,
 } from "#/constants/settings-nav";
@@ -33,6 +34,12 @@ import { getLockedCloudHost } from "#/api/agent-server-config";
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const url = new URL(request.url);
   const { pathname } = url;
+
+  // Backend connection management is the one settings page that must remain
+  // reachable when the active local server is down or not configured.
+  if (pathname.replace(/\/+$/, "") === BACKENDS_SETTINGS_NAV_PATH) {
+    return null;
+  }
 
   const config = await queryClient.fetchQuery<WebClientConfig>({
     queryKey: QUERY_KEYS.WEB_CLIENT_CONFIG,

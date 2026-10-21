@@ -39,6 +39,19 @@ describe("settings route", () => {
     queryClient.clear();
   });
 
+  it("keeps backend connection settings reachable without fetching the active server config", async () => {
+    const getConfig = vi.spyOn(OptionService, "getConfig");
+
+    const result = await clientLoader({
+      request: new Request("http://localhost/settings/backends"),
+      params: {},
+      context: {},
+    } as never);
+
+    expect(result).toBeNull();
+    expect(getConfig).not.toHaveBeenCalled();
+  });
+
   it("prefers /settings/agents when LLM settings are hidden", () => {
     // /settings/agents is the unconditional first fallback — always
     // available and the single place to switch agent kinds.

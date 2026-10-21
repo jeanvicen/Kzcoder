@@ -17,8 +17,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import {
   clearCachedAgentServerInfo,
-  isAgentServerUnavailableError,
   isAgentServerAuthError,
+  isAgentServerUnknownVersionError,
+  isAgentServerUnsupportedVersionError,
 } from "#/api/agent-server-compatibility";
 import {
   getLockedCloudAuthMode,
@@ -62,8 +63,8 @@ function ColorThemeApplier() {
   return null;
 }
 
-// Only rendered when the active backend is unreachable; keep the modal out of
-// the default root graph.
+// Only rendered for blocking backend-recovery conditions; keep the modal out
+// of the default root graph.
 const ManageBackendsModal = React.lazy(() =>
   import("#/components/features/backends/manage-backends-modal").then((m) => ({
     default: m.ManageBackendsModal,
@@ -130,10 +131,9 @@ function AgentServerBootstrapLoading() {
 }
 
 /**
- * When the active backend is unreachable, the rest of the app cannot
- * render (most queries chain off of `/server_info`). Drop a minimal
- * placeholder behind the Manage Backends modal so the user can edit,
- * add, or pick another backend right away.
+ * Blocking backend-recovery cases cannot safely render the app normally,
+ * including Cloud auth/connectivity failures and incompatible server versions.
+ * Keep a minimal surface so users can recover without losing their current route.
  */
 function MissingAgentServerScreen() {
   const queryClient = useQueryClient();
@@ -397,10 +397,16 @@ export default function App() {
     return <AgentServerBootstrapLoading />;
   }
 
+  // Cloud authentication failures and incompatible agent-server versions need
+  // a blocking recovery flow. A merely unreachable local server is different:
+  // render the app shell so Settings > Manage backends remains accessible.
+  const activeBackendVersionUnsupported =
+    isAgentServerUnknownVersionError(config.error) ||
+    isAgentServerUnsupportedVersionError(config.error);
   if (
     activeCloudLoggedOut ||
     activeCloudUnreachable ||
-    isAgentServerUnavailableError(config.error)
+    activeBackendVersionUnsupported
   ) {
     return <MissingAgentServerScreen />;
   }

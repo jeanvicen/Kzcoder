@@ -4,6 +4,8 @@ import MemoryIcon from "#/icons/memory_icon.svg?react";
 import CircuitIcon from "#/icons/u-circuit.svg?react";
 import RobotIcon from "#/icons/u-robot.svg?react";
 
+export const BACKENDS_SETTINGS_NAV_PATH = "/settings/backends";
+
 export interface SettingsNavItem {
   icon: React.ReactElement;
   to: string;
@@ -15,7 +17,7 @@ export interface SettingsNavItem {
 export const OSS_NAV_ITEMS: SettingsNavItem[] = [
   {
     icon: <Server className="size-4" strokeWidth={2} aria-hidden />,
-    to: "/settings/backends",
+    to: BACKENDS_SETTINGS_NAV_PATH,
     text: "BACKEND$MANAGE_TITLE",
     subtitle: "BACKEND$ADD_SUBTITLE",
   },
