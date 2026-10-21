@@ -1,4 +1,5 @@
 import { put } from "@vercel/blob";
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -45,15 +46,31 @@ export async function POST(request: Request) {
     }
 
     const filename = (formData.get("file") as File).name;
-    const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const safeName =
+      filename.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 100) || "upload";
+    const pathname = `${session.user.id}/${randomUUID()}-${safeName}`;
     const fileBuffer = await file.arrayBuffer();
 
     try {
-      const data = await put(`${safeName}`, fileBuffer, {
-        access: "public",
+      await put(pathname, fileBuffer, {
+        access: "private",
+        contentType: file.type,
       });
 
-      return NextResponse.json(data);
+      const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(
+        /\/+$/,
+        ""
+      );
+      const encodedPath = pathname
+        .split("/")
+        .map((segment) => encodeURIComponent(segment))
+        .join("/");
+      const url = new URL(
+        `${basePath}/api/files/${encodedPath}`,
+        request.url
+      ).toString();
+
+      return NextResponse.json({ contentType: file.type, name: safeName, url });
     } catch {
       return NextResponse.json({ error: "Upload failed" }, { status: 500 });
     }

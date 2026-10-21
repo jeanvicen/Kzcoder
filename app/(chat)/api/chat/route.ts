@@ -44,6 +44,10 @@ import { ChatbotError } from "@/lib/errors";
 import { checkIpRateLimit } from "@/lib/ratelimit";
 import type { ChatMessage, WaitingStatusData } from "@/lib/types";
 import { convertToUIMessages, generateUUID } from "@/lib/utils";
+import {
+  getOwnedPrivateBlobPathnameFromUrl,
+  getPrivateBlobDataUrl,
+} from "@/lib/private-blob";
 import { generateTitleFromUserMessage } from "../../actions";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
 
@@ -170,6 +174,35 @@ export async function POST(request: Request) {
       ];
     }
 
+    const modelInputMessages = await Promise.all(
+      uiMessages.map(async (currentMessage) => ({
+        ...currentMessage,
+        parts: await Promise.all(
+          currentMessage.parts.map(async (part) => {
+            if (part.type !== "file") {
+              return part;
+            }
+
+            const pathname = getOwnedPrivateBlobPathnameFromUrl(
+              part.url,
+              request.url,
+              session.user.id
+            );
+            if (!pathname) {
+              throw new ChatbotError("forbidden:api");
+            }
+
+            return {
+              ...part,
+              mediaType: part.mediaType,
+              url: await getPrivateBlobDataUrl(pathname),
+            };
+          })
+        ),
+      }))
+    );
+    const modelMessages = await convertToModelMessages(modelInputMessages);
+
     const { longitude, latitude, city, country } = geolocation(request);
 
     const requestHints: RequestHints = {
@@ -199,8 +232,6 @@ export async function POST(request: Request) {
     const capabilities = modelCapabilities[chatModel];
     const isReasoningModel = capabilities?.reasoning === true;
     const supportsTools = capabilities?.tools === true;
-
-    const modelMessages = await convertToModelMessages(uiMessages);
 
     const stream = createUIMessageStream({
       execute: async ({ writer: dataStream }) => {
