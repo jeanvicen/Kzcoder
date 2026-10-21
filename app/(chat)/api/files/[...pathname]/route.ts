@@ -6,7 +6,6 @@ import {
   isOwnedPrivateBlobPathname,
 } from "@/lib/private-blob";
 
-export const dynamic = "force-dynamic";
 
 export async function GET(
   _request: Request,
