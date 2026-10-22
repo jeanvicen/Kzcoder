@@ -1,6 +1,3 @@
-Source: Web Fetch
-URL: https://raw.githubusercontent.com/jeanvicen/Kzcoder/refs/heads/kz/interface/components/chat/multimodal-input.tsx
----
 "use client";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
