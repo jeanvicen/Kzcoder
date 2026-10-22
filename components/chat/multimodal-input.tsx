@@ -1,3 +1,6 @@
+Source: Web Fetch
+URL: https://raw.githubusercontent.com/jeanvicen/Kzcoder/refs/heads/kz/interface/components/chat/multimodal-input.tsx
+---
 "use client";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
@@ -540,7 +543,7 @@ function PureMultimodalInput({
           placeholder={
             editingMessage
               ? "Edit your message..."
-              : "Ask anything..."
+              : "Descreva a tarefa ou cole seu código..."
           }
           ref={textareaRef}
           value={input}
@@ -942,3 +945,4 @@ function PureStopButton({
 }
 
 const StopButton = memo(PureStopButton);
+
