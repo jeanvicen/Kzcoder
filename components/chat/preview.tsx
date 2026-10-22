@@ -54,10 +54,10 @@ export function Preview() {
       <div className="flex flex-1 flex-col items-center justify-center gap-8 px-8">
         <div className="text-center">
           <h2 className="text-xl font-semibold tracking-tight">
-            What can I help with?
+            O que vamos construir hoje?
           </h2>
           <p className="mt-1.5 text-sm text-muted-foreground">
-            Ask a question, write code, or explore ideas.
+            Descreva a tarefa, cole seu código ou anexe um arquivo.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function Preview() {
           onClick={handleDefaultAction}
           type="button"
         >
-          Ask anything...
+          Descreva a tarefa ou cole seu código...
         </button>
       </div>
     </div>
